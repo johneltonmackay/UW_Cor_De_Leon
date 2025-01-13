@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<#if record??>
+<pdf>
+<head>
+    <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+    <#if .locale == "zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+    <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+    <#elseif .locale == "ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+    <#elseif .locale == "ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+    <#elseif .locale == "th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+    </#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table class="header" style="width: 100%;">
+                <tr>
+                    <td colspan="2" rowspan="6" style="align: left; vertical-align: top;">
+                        <#if companyInformation.logoUrl?length != 0>
+                            <img src="${companyInformation.logoUrl}" style="float: left; width: 150px; height: 50px;" />
+                        </#if>
+                        <br /><br /><br /><br /><br />
+                        <span class="nameandaddress">${companyInformation.mainaddress_text}</span>
+                    </td>
+                    <td align="right">
+                        <span class="title">${record@title}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">${record.trandate}</td>
+                </tr>
+            </table>
+        </macro>
+        <macro id="nlfooter">
+            <table class="footer" style="width: 100%;">
+                <tr>
+                    <td align="right">
+                        <pagenumber /> of <totalpages />
+                    </td>
+                </tr>
+            </table>
+        </macro>
+    </macrolist>
+    <style type="text/css">
+        * {
+            <#if .locale == "zh_CN">
+                font-family: NotoSans, NotoSansCJKsc, sans-serif;
+            <#elseif .locale == "zh_TW">
+                font-family: NotoSans, NotoSansCJKtc, sans-serif;
+            <#elseif .locale == "ja_JP">
+                font-family: NotoSans, NotoSansCJKjp, sans-serif;
+            <#elseif .locale == "ko_KR">
+                font-family: NotoSans, NotoSansCJKkr, sans-serif;
+            <#elseif .locale == "th_TH">
+                font-family: NotoSans, NotoSansThai, sans-serif;
+            <#else>
+                font-family: NotoSans, sans-serif;
+            </#if>
+        }
+        table {
+            font-size: 9pt;
+            table-layout: fixed;
+        }
+        th {
+            font-weight: bold;
+            font-size: 8pt;
+            vertical-align: middle;
+            padding: 5px 6px 3px;
+            background-color: #e3e3e3;
+            color: #333333;
+        }
+        td {
+            padding: 4px 6px;
+        }
+        td p {
+            align: left;
+        }
+        b {
+            font-weight: bold;
+            color: #333333;
+        }
+        table.header td {
+            padding: 0;
+            font-size: 10pt;
+        }
+        table.footer td {
+            padding: 0;
+            font-size: 8pt;
+        }
+        table.itemtable th {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+        table.body td {
+            padding-top: 2px;
+        }
+        td.addressheader {
+            font-size: 8pt;
+            padding-top: 6px;
+            padding-bottom: 2px;
+        }
+        td.address {
+            padding-top: 0px;
+        }
+        span.title {
+            font-size: 28pt;
+        }
+        span.number {
+            font-size: 16pt;
+        }
+        hr {
+            border-top: 1px dashed #d3d3d3;
+            width: 100%;
+            color: #ffffff;
+            background-color: #ffffff;
+            height: 1px;
+        }
+        p.small {
+            line-height: 0.7;
+        }
+    </style>
+</head>
+<body header="nlheader" header-height="14%" footer="nlfooter" footer-height="20pt" padding="0.2in 0.5in 0.5in 0.5in" size="Letter">
+    <table style="width: 100%;">
+        <tr>
+            <td class="addressheader" colspan="3"><b>${record.billaddress@label}</b></td>
+        </tr>
+        <tr>
+            <td class="address" colspan="3">${record.billaddress}</td>
+        </tr>
+    </table>
+
+    <table class="body" style="width: 100%;">
+        <tr>
+            <th align="right">${record.amountDue@label}</th>
+        </tr>
+        <tr>
+            <td align="right">${record.amountDue}</td>
+        </tr>
+    </table>
+
+  <table class="itemtable" style="width: 100%; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th colspan="3" style="width: 80px;"><span style="font-size:9px;">${record.lines.datecol@label}</span></th>
+                <th style="width: 80px;"><span style="font-size:9px;">${record.lines.duedate@label}</span></th> <!-- Added Due Date -->
+                <th style="width: 117px;"><span style="font-size:9px;">${record.lines.description@label}</span></th>
+                <th style="width: 99px;"><span style="font-size:9px;">PO/Check #</span></th>
+                <th align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">Charge/Credit</span></th> <!-- Combined Charge/Credit -->
+                <th align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">Open Balance</span></th> <!-- Added Open Balance -->
+                <th align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">Running Total</span></th>
+            </tr>
+        </thead>
+        <tbody>
+             <#if customer.category?contains("District")>
+                <#list record.lines as line>
+                    <tr>
+                        <!-- Date Column -->
+                        <td colspan="3" style="width: 80px;"><span style="font-size:9px;">${line.datecol?string.short}</span></td>
+                        
+                        <!-- Due Date Column -->
+                        <td style="width: 80px;"><span style="font-size:9px;">${line.duedate}</span></td> <!-- From line.duedate -->
+                        
+                        <!-- Description Column -->
+                        <td style="width: 117px;">
+                            <span style="font-size:9px;">
+                                <#if line.description?contains("Invoice")>
+                                    ${line.description?replace("Invoice", "INV")?replace("#", "")}
+                                <#elseif line.description?contains("Payment")>
+                                    ${line.description?replace("Payment", "PYMT")?replace("#", "")}
+                                <#elseif line.description?contains("Credit")>
+                                    ${line.description?replace("Credit Memo", "CM")?replace("#", "")}
+                                <#elseif line.description?contains("Journal")>
+                                    ${line.description?replace("Journal", "JRNL")?replace("#", "")}
+                                <#else>
+                                    ${line.description?replace("#", "")}
+                                </#if>
+                            </span>
+                        </td>
+                        
+                        <!-- PO/Check Number -->
+                        <td style="width: 99px;"><span style="font-size:9px;">${line.otherrefnum}</span></td>
+                        
+                       <!-- Charge/Credit Column -->
+                        <td align="right" colspan="4" style="width: 95px;">
+                        <span style="font-size:9px;">
+                          <#if line.description?contains("Credit")>
+                            (${line.payment}) <!-- Negative value in parentheses -->
+                          <#elseif line.description?contains("Invoice")>
+                            ${line.charge} <!-- Positive value -->
+                          <#elseif line.description?contains("Payment")>
+                            (${line.payment}) <!-- Negative value in parentheses -->
+                          <#elseif line.description?contains("Journal")>
+                            <#if line.charge?contains("$")>
+                                ${line.charge}
+                            </#if>
+                            <#if line.payment?contains("$")>
+                                (${line.payment})
+                            </#if>
+                        <#else>
+                          ${line.amountremaining} <!-- Default: Positive value -->
+                        </#if>
+                        </span>
+                        </td>
+                        
+                        <!-- Open Balance -->
+                        <td align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">${line.amountremaining}</span></td>
+                        
+                        <!-- Running Total -->
+                        <td align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">${line.balance}</span></td>
+                    </tr>
+                </#list>
+
+            <!-- Non-District Logic -->
+             <#else>
+                <#list record.lines as line>
+                    <tr>
+                        <!-- Date Column -->
+                        <td colspan="3" style="width: 80px;"><span style="font-size:9px;">${line.datecol?string.short}</span></td>
+                        
+                        <!-- Due Date Column -->
+                        <td style="width: 80px;"><span style="font-size:9px;">${line.duedate}</span></td> <!-- From line.duedate -->
+                        
+                        <!-- Description Column -->
+                        <td style="width: 117px;">
+                            <span style="font-size:9px;">
+                                <#if line.description?contains("Invoice")>
+                                    ${line.description?replace("Invoice", "INV")?replace("#", "")}
+                                <#elseif line.description?contains("Payment")>
+                                    ${line.description?replace("Payment", "PYMT")?replace("#", "")}
+                                <#elseif line.description?contains("Credit")>
+                                    ${line.description?replace("Credit Memo", "CM")?replace("#", "")}
+                                <#elseif line.description?contains("Journal")>
+                                    ${line.description?replace("Journal", "JRNL")?replace("#", "")}
+                                <#elseif line.description?contains("Sales")>
+                                    ${line.description?replace("Sales Order", "SO")?replace("#", "")}
+                                <#else>
+                                    ${line.description?replace("#", "")}
+                                </#if>
+                            </span>
+                        </td>
+                        
+                        <!-- PO/Check Number -->
+                        <td style="width: 99px;"><span style="font-size:9px;">${line.otherrefnum}</span></td>
+                        
+                        <!-- Charge/Credit Column -->
+                        <td align="right" colspan="4" style="width: 95px;">
+                        <span style="font-size:9px;">
+                          <#if line.description?contains("Credit")>
+                            (${line.payment}) <!-- Negative value in parentheses -->
+                          <#elseif line.description?contains("Invoice")>
+                            ${line.charge} <!-- Positive value -->
+                          <#elseif line.description?contains("Payment")>
+                            (${line.payment}) <!-- Negative value in parentheses -->
+                          <#elseif line.description?contains("Journal")>
+                            <#if line.charge?contains("$")>
+                                ${line.charge}
+                            </#if>
+                            <#if line.payment?contains("$")>
+                                (${line.payment})
+                            </#if>
+                        <#else>
+                          ${line.amountremaining} <!-- Default: Positive value -->
+                        </#if>
+                        </span>
+                        </td>
+                        
+                        <!-- Open Balance -->
+                       <<td align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">${line.amountremaining}</span></td>
+                        
+                        <!-- Running Total -->
+                        <td align="right" colspan="4" style="width: 95px;"><span style="font-size:9px;">${line.balance}</span></td>
+                    </tr>
+                </#list>
+            </#if>
+        </tbody>
+    </table>
+
+    <table style="width: 100%; margin-top: 10px;">
+        <tr>
+            <th>${record.aging1@label}</th>
+            <th>${record.aging2@label}</th>
+            <th>${record.aging3@label}</th>
+            <th>${record.aging4@label}</th>
+            <th>${record.aging5@label}</th>
+            <th>${record.agingbal@label}</th>
+        </tr>
+        <tr>
+            <td>${record.aging1}</td>
+            <td>${record.aging2}</td>
+            <td>${record.aging3}</td>
+            <td>${record.aging4}</td>
+            <td>${record.aging5}</td>
+            <td>${record.agingbal}</td>
+        </tr>
+    </table>
+      
+    <p style="font-size:11px; padding-top:10px">Invoice copies can be accessed and paid by credit card through myPLTW.org. If you have any questions about your invoices or how to access your myPLTW.org account, please contact PLTW's Finance Team at 877.335.7589 or solutioncenter@pltw.org.</p>
+    <p class="small" style="font-size:11px; padding-top:10px">To pay via EFT/ACH, please utilize the following information:</p>
+    <p class="small" style="font-size:11px;">Bank Name: Old National Bank</p>
+    <p class="small" style="font-size:11px;">Bank Address: One Main Street, Evansville, Indiana 47708</p>
+    <p class="small" style="font-size:11px;">Beneficiary: Project Lead The Way, Inc - Operating Account</p>
+    <p class="small" style="font-size:11px;">Bank Account Number: 103369802</p>
+    <p class="small" style="font-size:11px;">Bank Routing Number: 086300012</p>
+    <p class="small" style="font-size:11px;">Please forward your payment remittance advice to epayment@pltw.org</p>
+</body>
+</pdf>
+<#else>
+<pdf>
+    <head></head>
+    <body>
+        <p>xxx</p>
+    </body>
+</pdf>
+</#if>

@@ -1,0 +1,4 @@
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>WorkOrder_To_Requisition</projectname>
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
